@@ -8,13 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		DA304CF41E00407B009286D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304CF31E00407B009286D0 /* AppDelegate.swift */; };
-		DA304CF61E00407B009286D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304CF51E00407B009286D0 /* ViewController.swift */; };
+		DA304CF61E00407B009286D0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304CF51E00407B009286D0 /* MapViewController.swift */; };
 		DA304CF91E00407B009286D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA304CF71E00407B009286D0 /* Main.storyboard */; };
 		DA304CFC1E00407B009286D0 /* Virtual_Tourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DA304CFA1E00407B009286D0 /* Virtual_Tourist.xcdatamodeld */; };
 		DA304CFE1E00407B009286D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA304CFD1E00407B009286D0 /* Assets.xcassets */; };
 		DA304D011E00407B009286D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA304CFF1E00407B009286D0 /* LaunchScreen.storyboard */; };
 		DA304D0C1E00407C009286D0 /* Virtual_TouristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D0B1E00407C009286D0 /* Virtual_TouristTests.swift */; };
 		DA304D171E00407C009286D0 /* Virtual_TouristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D161E00407C009286D0 /* Virtual_TouristUITests.swift */; };
+		DA304D381E004C26009286D0 /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D341E004C26009286D0 /* Pin+CoreDataClass.swift */; };
+		DA304D391E004C26009286D0 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D351E004C26009286D0 /* Pin+CoreDataProperties.swift */; };
+		DA304D3A1E004C26009286D0 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D361E004C26009286D0 /* Photo+CoreDataClass.swift */; };
+		DA304D3B1E004C26009286D0 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D371E004C26009286D0 /* Photo+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +41,7 @@
 /* Begin PBXFileReference section */
 		DA304CF01E00407B009286D0 /* Virtual-Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual-Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA304CF31E00407B009286D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DA304CF51E00407B009286D0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DA304CF51E00407B009286D0 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		DA304CF81E00407B009286D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DA304CFB1E00407B009286D0 /* Virtual_Tourist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Virtual_Tourist.xcdatamodel; sourceTree = "<group>"; };
 		DA304CFD1E00407B009286D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +53,10 @@
 		DA304D121E00407C009286D0 /* Virtual-TouristUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual-TouristUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA304D161E00407C009286D0 /* Virtual_TouristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TouristUITests.swift; sourceTree = "<group>"; };
 		DA304D181E00407C009286D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA304D341E004C26009286D0 /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DA304D351E004C26009286D0 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DA304D361E004C26009286D0 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DA304D371E004C26009286D0 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +87,10 @@
 		DA304CE71E00407B009286D0 = {
 			isa = PBXGroup;
 			children = (
+				DA304D341E004C26009286D0 /* Pin+CoreDataClass.swift */,
+				DA304D351E004C26009286D0 /* Pin+CoreDataProperties.swift */,
+				DA304D361E004C26009286D0 /* Photo+CoreDataClass.swift */,
+				DA304D371E004C26009286D0 /* Photo+CoreDataProperties.swift */,
 				DA304CF21E00407B009286D0 /* Virtual-Tourist */,
 				DA304D0A1E00407C009286D0 /* Virtual-TouristTests */,
 				DA304D151E00407C009286D0 /* Virtual-TouristUITests */,
@@ -99,13 +111,10 @@
 		DA304CF21E00407B009286D0 /* Virtual-Tourist */ = {
 			isa = PBXGroup;
 			children = (
-				DA304CF31E00407B009286D0 /* AppDelegate.swift */,
-				DA304CF51E00407B009286D0 /* ViewController.swift */,
-				DA304CF71E00407B009286D0 /* Main.storyboard */,
-				DA304CFD1E00407B009286D0 /* Assets.xcassets */,
-				DA304CFF1E00407B009286D0 /* LaunchScreen.storyboard */,
-				DA304D021E00407B009286D0 /* Info.plist */,
-				DA304CFA1E00407B009286D0 /* Virtual_Tourist.xcdatamodeld */,
+				DA304D271E004115009286D0 /* Supporting Files */,
+				DA304D261E0040E8009286D0 /* Model */,
+				DA304D251E0040DA009286D0 /* View */,
+				DA304D241E0040CD009286D0 /* Controller */,
 			);
 			path = "Virtual-Tourist";
 			sourceTree = "<group>";
@@ -126,6 +135,41 @@
 				DA304D181E00407C009286D0 /* Info.plist */,
 			);
 			path = "Virtual-TouristUITests";
+			sourceTree = "<group>";
+		};
+		DA304D241E0040CD009286D0 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				DA304CF51E00407B009286D0 /* MapViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		DA304D251E0040DA009286D0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DA304CF71E00407B009286D0 /* Main.storyboard */,
+				DA304CFF1E00407B009286D0 /* LaunchScreen.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		DA304D261E0040E8009286D0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DA304CFA1E00407B009286D0 /* Virtual_Tourist.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		DA304D271E004115009286D0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA304CF31E00407B009286D0 /* AppDelegate.swift */,
+				DA304CFD1E00407B009286D0 /* Assets.xcassets */,
+				DA304D021E00407B009286D0 /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,8 +306,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA304CF61E00407B009286D0 /* ViewController.swift in Sources */,
+				DA304D3B1E004C26009286D0 /* Photo+CoreDataProperties.swift in Sources */,
+				DA304D3A1E004C26009286D0 /* Photo+CoreDataClass.swift in Sources */,
+				DA304CF61E00407B009286D0 /* MapViewController.swift in Sources */,
+				DA304D381E004C26009286D0 /* Pin+CoreDataClass.swift in Sources */,
 				DA304CFC1E00407B009286D0 /* Virtual_Tourist.xcdatamodeld in Sources */,
+				DA304D391E004C26009286D0 /* Pin+CoreDataProperties.swift in Sources */,
 				DA304CF41E00407B009286D0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
