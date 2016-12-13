@@ -19,6 +19,7 @@
 		DA304D391E004C26009286D0 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D351E004C26009286D0 /* Pin+CoreDataProperties.swift */; };
 		DA304D3A1E004C26009286D0 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D361E004C26009286D0 /* Photo+CoreDataClass.swift */; };
 		DA304D3B1E004C26009286D0 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D371E004C26009286D0 /* Photo+CoreDataProperties.swift */; };
+		DA304D3D1E0071BA009286D0 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D3C1E0071BA009286D0 /* GCDBlackBox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		DA304D351E004C26009286D0 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DA304D361E004C26009286D0 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DA304D371E004C26009286D0 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DA304D3C1E0071BA009286D0 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				DA304CF31E00407B009286D0 /* AppDelegate.swift */,
+				DA304D3C1E0071BA009286D0 /* GCDBlackBox.swift */,
 				DA304CFD1E00407B009286D0 /* Assets.xcassets */,
 				DA304D021E00407B009286D0 /* Info.plist */,
 			);
@@ -306,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA304D3D1E0071BA009286D0 /* GCDBlackBox.swift in Sources */,
 				DA304D3B1E004C26009286D0 /* Photo+CoreDataProperties.swift in Sources */,
 				DA304D3A1E004C26009286D0 /* Photo+CoreDataClass.swift in Sources */,
 				DA304CF61E00407B009286D0 /* MapViewController.swift in Sources */,

@@ -55,8 +55,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             editButton.title = "Edit"
         }
         else {
-            editMode = true
-            editButton.title = "Done"
+            displayAlert()
         }
     }
     
@@ -74,7 +73,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    // MARK: Selecting a pin on map view
+    // MARK: Selecting a pin from map view
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let precision = 0.000001
         let latUpper = (view.annotation?.coordinate.latitude)! + precision
@@ -98,9 +97,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 print("Pin deleted")
             }
         }
-        
-
-        
+    }
+    
+    // MARK: Displays an alert before editing begins
+    func displayAlert() {
+        let alert = UIAlertController(title: "Warning!", message: "Tapping a pin will delete it permanently ", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "Okay", style: .default) {
+            action in
+            self.editMode = true
+            self.editButton.title = "Done"
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
 
 }
