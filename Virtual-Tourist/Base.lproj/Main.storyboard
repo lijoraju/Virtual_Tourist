@@ -53,6 +53,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="cmH-tO-CaF" id="LUQ-4r-Qk5"/>
                         <outlet property="mapView" destination="iu1-tE-4F9" id="sa3-Hs-L02"/>
                     </connections>
                 </viewController>

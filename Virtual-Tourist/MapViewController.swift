@@ -10,18 +10,20 @@ import UIKit
 import CoreData
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var editButton: UIBarButtonItem!
     
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+    var editMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         longTapRecognizer()
         fetchAllSavedPins()
-        
+        mapView.delegate = self
     }
 
     // MARK: Drop a new pin on map view
@@ -48,6 +50,14 @@ class MapViewController: UIViewController {
     
     // MARK: Delete an existing pin on map view
     @IBAction func editButtonAction(_ sender: AnyObject) {
+        if editMode {
+            editMode = false
+            editButton.title = "Edit"
+        }
+        else {
+            editMode = true
+            editButton.title = "Done"
+        }
     }
     
     // MARK: Fetch all the saved annotations from persistance store
@@ -62,6 +72,35 @@ class MapViewController: UIViewController {
         for pin in pins {
             mapView.addAnnotation(pin)
         }
+    }
+    
+    // MARK: Selecting a pin on map view
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let precision = 0.000001
+        let latUpper = (view.annotation?.coordinate.latitude)! + precision
+        let latLower = (view.annotation?.coordinate.latitude)! - precision
+        let lonUpper = (view.annotation?.coordinate.longitude)! + precision
+        let lonLower = (view.annotation?.coordinate.longitude)! - precision
+        let predicate = NSPredicate(format: "(%K BETWEEN{\(latLower), \(latUpper)}) AND (%K BETWEEN{\(lonLower), \(lonUpper)})", #keyPath(Pin.latitude), #keyPath(Pin.longitude))
+        fetchRequest.predicate = predicate
+        var pins: [Pin] = []
+        do {
+            pins = try managedContext.fetch(fetchRequest)
+        }
+        catch let error as NSError {
+            print("\(error) \(error.userInfo)")
+        }
+        if editMode{
+            if pins.count > 0 {
+                mapView.removeAnnotation(pins.first!)
+                managedContext.delete(pins.first!)
+                appDelegate?.saveContext()
+                print("Pin deleted")
+            }
+        }
+        
+
+        
     }
 
 }
