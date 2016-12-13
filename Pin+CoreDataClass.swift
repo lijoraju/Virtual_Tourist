@@ -8,8 +8,12 @@
 
 import Foundation
 import CoreData
+import MapKit
 
-
-public class Pin: NSManagedObject {
-
+public class Pin: NSManagedObject, MKAnnotation {
+    public var coordinate: CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+    }
 }
