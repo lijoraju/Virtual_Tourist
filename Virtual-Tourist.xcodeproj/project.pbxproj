@@ -20,6 +20,8 @@
 		DA304D3A1E004C26009286D0 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D361E004C26009286D0 /* Photo+CoreDataClass.swift */; };
 		DA304D3B1E004C26009286D0 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D371E004C26009286D0 /* Photo+CoreDataProperties.swift */; };
 		DA304D3D1E0071BA009286D0 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D3C1E0071BA009286D0 /* GCDBlackBox.swift */; };
+		DAEA34E81E012B0B00A57994 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA34E71E012B0B00A57994 /* ImageCell.swift */; };
+		DAEA34EA1E012CB700A57994 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA34E91E012CB700A57994 /* PhotoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		DA304D361E004C26009286D0 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DA304D371E004C26009286D0 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DA304D3C1E0071BA009286D0 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
+		DAEA34E71E012B0B00A57994 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		DAEA34E91E012CB700A57994 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +147,8 @@
 			isa = PBXGroup;
 			children = (
 				DA304CF51E00407B009286D0 /* MapViewController.swift */,
+				DAEA34E91E012CB700A57994 /* PhotoViewController.swift */,
+				DAEA34E71E012B0B00A57994 /* ImageCell.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -311,12 +317,14 @@
 			files = (
 				DA304D3D1E0071BA009286D0 /* GCDBlackBox.swift in Sources */,
 				DA304D3B1E004C26009286D0 /* Photo+CoreDataProperties.swift in Sources */,
+				DAEA34E81E012B0B00A57994 /* ImageCell.swift in Sources */,
 				DA304D3A1E004C26009286D0 /* Photo+CoreDataClass.swift in Sources */,
 				DA304CF61E00407B009286D0 /* MapViewController.swift in Sources */,
 				DA304D381E004C26009286D0 /* Pin+CoreDataClass.swift in Sources */,
 				DA304CFC1E00407B009286D0 /* Virtual_Tourist.xcdatamodeld in Sources */,
 				DA304D391E004C26009286D0 /* Pin+CoreDataProperties.swift in Sources */,
 				DA304CF41E00407B009286D0 /* AppDelegate.swift in Sources */,
+				DAEA34EA1E012CB700A57994 /* PhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +569,7 @@
 				DA304D1D1E00407C009286D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DA304D1E1E00407C009286D0 /* Build configuration list for PBXNativeTarget "Virtual-TouristTests" */ = {
 			isa = XCConfigurationList;
@@ -569,6 +578,7 @@
 				DA304D201E00407C009286D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DA304D211E00407C009286D0 /* Build configuration list for PBXNativeTarget "Virtual-TouristUITests" */ = {
 			isa = XCConfigurationList;
@@ -577,6 +587,7 @@
 				DA304D231E00407C009286D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

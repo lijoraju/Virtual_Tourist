@@ -89,13 +89,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         catch let error as NSError {
             print("\(error) \(error.userInfo)")
         }
-        if editMode{
+        if editMode {
             if pins.count > 0 {
                 mapView.removeAnnotation(pins.first!)
                 managedContext.delete(pins.first!)
                 appDelegate?.saveContext()
                 print("Pin deleted")
             }
+        }
+        else {
+            mapView.deselectAnnotation(view.annotation, animated: true)
+            performSegue(withIdentifier: "MapToPhoto", sender: self)
         }
     }
     
