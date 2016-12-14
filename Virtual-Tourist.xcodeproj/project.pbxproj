@@ -22,6 +22,7 @@
 		DA304D3D1E0071BA009286D0 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA304D3C1E0071BA009286D0 /* GCDBlackBox.swift */; };
 		DAEA34E81E012B0B00A57994 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA34E71E012B0B00A57994 /* ImageCell.swift */; };
 		DAEA34EA1E012CB700A57994 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA34E91E012CB700A57994 /* PhotoViewController.swift */; };
+		DAF7D1541E019C4E0080C6CB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7D1531E019C4E0080C6CB /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		DA304D3C1E0071BA009286D0 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 		DAEA34E71E012B0B00A57994 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		DAEA34E91E012CB700A57994 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		DAF7D1531E019C4E0080C6CB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				DA304CF31E00407B009286D0 /* AppDelegate.swift */,
+				DAF7D1531E019C4E0080C6CB /* Constants.swift */,
 				DA304D3C1E0071BA009286D0 /* GCDBlackBox.swift */,
 				DA304CFD1E00407B009286D0 /* Assets.xcassets */,
 				DA304D021E00407B009286D0 /* Info.plist */,
@@ -316,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA304D3D1E0071BA009286D0 /* GCDBlackBox.swift in Sources */,
+				DAF7D1541E019C4E0080C6CB /* Constants.swift in Sources */,
 				DA304D3B1E004C26009286D0 /* Photo+CoreDataProperties.swift in Sources */,
 				DAEA34E81E012B0B00A57994 /* ImageCell.swift in Sources */,
 				DA304D3A1E004C26009286D0 /* Photo+CoreDataClass.swift in Sources */,

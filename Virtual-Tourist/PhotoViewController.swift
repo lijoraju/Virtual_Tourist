@@ -18,6 +18,13 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate {
         super.viewDidLoad()
 
             }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mapView.addAnnotation(Constants.selectedPin)
+        mapView.centerCoordinate = Constants.selectedPin.coordinate
+        mapView.camera.altitude = 1000000
+    }
 
     // MARK: New Collection button action
     @IBAction func showNewCollection(_ sender: AnyObject) {

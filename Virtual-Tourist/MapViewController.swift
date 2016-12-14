@@ -82,22 +82,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let lonLower = (view.annotation?.coordinate.longitude)! - precision
         let predicate = NSPredicate(format: "(%K BETWEEN{\(latLower), \(latUpper)}) AND (%K BETWEEN{\(lonLower), \(lonUpper)})", #keyPath(Pin.latitude), #keyPath(Pin.longitude))
         fetchRequest.predicate = predicate
-        var pins: [Pin] = []
+        var pin: [Pin] = []
         do {
-            pins = try managedContext.fetch(fetchRequest)
+            pin = try managedContext.fetch(fetchRequest)
         }
         catch let error as NSError {
             print("\(error) \(error.userInfo)")
         }
         if editMode {
-            if pins.count > 0 {
-                mapView.removeAnnotation(pins.first!)
-                managedContext.delete(pins.first!)
+            if pin.count > 0 {
+                mapView.removeAnnotation(pin.first!)
+                managedContext.delete(pin.first!)
                 appDelegate?.saveContext()
                 print("Pin deleted")
             }
         }
         else {
+            Constants.selectedPin = pin.first
             mapView.deselectAnnotation(view.annotation, animated: true)
             performSegue(withIdentifier: "MapToPhoto", sender: self)
         }
