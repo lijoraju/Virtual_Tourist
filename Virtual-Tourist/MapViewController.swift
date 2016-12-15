@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import MapKit
+import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
@@ -34,6 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let pin = Pin(context: managedContext)
             pin.latitude = mapCoordinate.latitude
             pin.longitude = mapCoordinate.longitude
+            FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: managedContext)
             mapView.addAnnotation(pin)
             appDelegate?.saveContext()
             print("Added a new pin")
