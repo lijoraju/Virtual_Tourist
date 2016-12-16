@@ -14,6 +14,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var newCollectionButton: UIButton!
 
     var managedContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -60,6 +61,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let sections = fetchedResultsController.sections {
             let sectionInfo = sections[section]
+            print("num = \(sectionInfo.numberOfObjects)")
             return sectionInfo.numberOfObjects
         }
         return 0
@@ -101,6 +103,10 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     // MARK: New Collection button action
     @IBAction func showNewCollection(_ sender: AnyObject) {
-            }
+        for photo in fetchedResultsController.fetchedObjects! {
+            managedContext.delete(photo)
+            appDelegate.saveContext()
+        }
+    }
     
 }
