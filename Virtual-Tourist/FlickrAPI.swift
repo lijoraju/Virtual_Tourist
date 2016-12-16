@@ -69,7 +69,7 @@ class FlickrAPI {
                         try managedContext.save()
                     }
                     catch let error as NSError {
-                        print("Can't save \(error) \(error.userInfo)")
+                        print("Can't save downloaded image \(error) \(error.userInfo)")
                     }
                 }
                 print("index = \(index) url = \(imageURL)")

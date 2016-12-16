@@ -42,7 +42,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         try self.managedContext.save()
                     }
                     catch let error as NSError {
-                        print("Error occured while saving \(error) \(error.userInfo)")
+                        print("Error saving after completing fetching photos \(error) \(error.userInfo)")
                     }
                 }
             }
@@ -102,7 +102,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if pin.count > 0 {
                 mapView.removeAnnotation(pin.first!)
                 managedContext.delete(pin.first!)
-                appDelegate.saveContext()
+                do {
+                    try managedContext.save()
+                }
+                catch let error as NSError {
+                    print("Error saving after deleting a pin \(error) \(error.userInfo)")
+                }
                 print("Pin deleted")
             }
         }
