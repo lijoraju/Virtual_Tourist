@@ -15,7 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var editButton: UIBarButtonItem!
     
-    let appDelegate = UIApplication.shared.delegate as? AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
     var editMode = false
@@ -35,12 +35,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let pin = Pin(context: managedContext)
             pin.latitude = mapCoordinate.latitude
             pin.longitude = mapCoordinate.longitude
-            FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: managedContext)
+            appDelegate.saveContext()
+            FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: managedContext) { (sucess,error) in
+                if sucess {
+                    do {
+                        try self.managedContext.save()
+                    }
+                    catch let error as NSError {
+                        print("Error occured while saving \(error) \(error.userInfo)")
+                    }
+                }
+            }
             mapView.addAnnotation(pin)
-            appDelegate?.saveContext()
             print("Added a new pin")
-            
-            
         }
     }
     
@@ -95,7 +102,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if pin.count > 0 {
                 mapView.removeAnnotation(pin.first!)
                 managedContext.delete(pin.first!)
-                appDelegate?.saveContext()
+                appDelegate.saveContext()
                 print("Pin deleted")
             }
         }

@@ -12,8 +12,9 @@ import UIKit
 
 class FlickrAPI {
     static let sharedInstance = FlickrAPI()
+    
     // MARK: Search photos in flickr by latitude and longitude
-    func searchPhotos(searchPin pin: Pin, context managedContext: NSManagedObjectContext) {
+    func searchPhotos(searchPin pin: Pin, context managedContext: NSManagedObjectContext, completionHandler: @escaping(_ sucess: Bool, _ errorString: String?)-> Void) {
         let methodParameters: [String: String] = [Constants.FlickrParameterKey.method: Constants.FlickrParameterValue.method,
                                                   Constants.FlickrParameterKey.apiKey: Constants.FlickrParameterValue.apiKey,
                                                   Constants.FlickrParameterKey.bbox: buildBBOX(latitude: pin.latitude, longitude: pin.longitude),
@@ -57,13 +58,23 @@ class FlickrAPI {
                     print("Can't find key \(Constants.FlickrResponseKey.mediumURL) in \(photoDictionary)")
                     return
                 }
-                let photo = Photo(context: managedContext)
-                managedContext.perform {
+                let url = URL(string: imageURL)!
+                if let imageData = NSData(contentsOf: url) {
+                    let photo = Photo(context: managedContext)
                     photo.index = index + 1
                     photo.url = imageURL
                     photo.pin = pin
+                    photo.image = imageData
+                    do {
+                        try managedContext.save()
+                    }
+                    catch let error as NSError {
+                        print("Can't save \(error) \(error.userInfo)")
+                    }
                 }
+                print("index = \(index) url = \(imageURL)")
             }
+            completionHandler(true, nil)
         }
         task.resume()
     }

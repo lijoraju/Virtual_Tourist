@@ -52,4 +52,8 @@ class Constants {
         static let status = "ok"
     }
     
+    struct FlickrDownloadedPhotos {
+        static var total: Int!
+    }
+    
 }
