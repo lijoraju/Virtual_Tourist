@@ -9,17 +9,19 @@
 import Foundation
 import CoreData
 
+
 extension Pin {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Pin> {
         return NSFetchRequest<Pin>(entityName: "Pin");
     }
 
+    @NSManaged public var currentPage: Int16
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
-    @NSManaged public var pages: Int16
     @NSManaged public var numOfPhotos: Int16
-    @NSManaged public var currentPage: Int16
+    @NSManaged public var pages: Int16
+    @NSManaged public var downloadFlag: Bool
     @NSManaged public var photos: NSSet?
 
 }

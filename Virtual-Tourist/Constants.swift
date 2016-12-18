@@ -46,6 +46,7 @@ class Constants {
         static let photo = "photo"
         static let mediumURL = "url_m"
         static let pages = "pages"
+        static let page = "page"
     }
     
     struct FlickrResponseValue {
