@@ -2,13 +2,12 @@
 //  Pin+CoreDataProperties.swift
 //  Virtual-Tourist
 //
-//  Created by LIJO RAJU on 13/12/16.
+//  Created by LIJO RAJU on 18/12/16.
 //  Copyright © 2016 LIJORAJU. All rights reserved.
 //
 
 import Foundation
 import CoreData
- 
 
 extension Pin {
 
@@ -18,6 +17,9 @@ extension Pin {
 
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
+    @NSManaged public var pages: Int16
+    @NSManaged public var numOfPhotos: Int16
+    @NSManaged public var currentPage: Int16
     @NSManaged public var photos: NSSet?
 
 }
