@@ -19,7 +19,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     var managedContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let pin: Pin = Constants.selectedPin
-    let numOfPhotos = Int(Constants.selectedPin.numOfPhotos)
+    var refreshing = false
     lazy var fetchedResultsController: NSFetchedResultsController<Photo> = {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "index", ascending: true)
@@ -49,7 +49,6 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         mapView.addAnnotation(Constants.selectedPin)
         mapView.centerCoordinate = Constants.selectedPin.coordinate
         mapView.camera.altitude = 1000000
-        newCollectionButton.isEnabled = pin.downloadFlag
     }
 
     // MARK: Load image to cell from core data data store
@@ -85,7 +84,9 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        newCollectionButton.isEnabled = pin.downloadFlag
+        if !refreshing {
+            setUIEnabled(enabled: pin.downloadFlag)
+        }
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -113,9 +114,11 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     // MARK: Delete a selected photo cell from collection view and simultaneously from core data store
     func deletePhoto(photo: Photo) {
-        managedContext.delete(photo)
-        pin.numOfPhotos = pin.numOfPhotos - 1
-        appDelegate.saveContext()
+        performUIUpdateOnMain() {
+            self.managedContext.delete(photo)
+            self.pin.numOfPhotos = self.pin.numOfPhotos - 1
+            self.appDelegate.saveContext()
+        }
     }
     
     // MARK: New Collection button action
@@ -123,6 +126,18 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         for object in fetchedResultsController.fetchedObjects! {
             deletePhoto(photo: object)
         }
+        refreshing = true
+        setUIEnabled(enabled: false)
+        FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: managedContext) { (sucess, error) in
+            if sucess {
+                self.refreshing = false
+                self.setUIEnabled(enabled: true)
+            }
+        }
     }
     
+    // MARK: Configure UI
+    func setUIEnabled(enabled: Bool) {
+        newCollectionButton.isEnabled = enabled
+    }
 }

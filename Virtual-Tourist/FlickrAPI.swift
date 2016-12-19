@@ -15,12 +15,16 @@ class FlickrAPI {
     
     // MARK: Search photos in flickr by latitude and longitude
     func searchPhotos(searchPin pin: Pin, context managedContext: NSManagedObjectContext, completionHandler: @escaping(_ sucess: Bool, _ errorString: String?)-> Void) {
-        let methodParameters: [String: String] = [Constants.FlickrParameterKey.method: Constants.FlickrParameterValue.method,
+        var methodParameters: [String: String] = [Constants.FlickrParameterKey.method: Constants.FlickrParameterValue.method,
                                                   Constants.FlickrParameterKey.apiKey: Constants.FlickrParameterValue.apiKey,
                                                   Constants.FlickrParameterKey.bbox: buildBBOX(latitude: pin.latitude, longitude: pin.longitude),
                                                   Constants.FlickrParameterKey.extras: Constants.FlickrParameterValue.mediumURL,
                                                   Constants.FlickrParameterKey.format: Constants.FlickrParameterValue.format,
                                                   Constants.FlickrParameterKey.noJSONCallBack: Constants.FlickrParameterValue.disableJSONCallBack]
+        let selectedPage = randomPage(pin: pin, parameters: methodParameters)
+        if selectedPage > 0 {
+            methodParameters[Constants.FlickrParameterKey.page] = String(selectedPage)
+        }
         let session = URLSession.shared
         let request = URLRequest(url: flickrURLFromParameters(parameters: methodParameters as [String : AnyObject]))
         let task = session.dataTask(with: request) { (data, response, error) in
@@ -80,6 +84,17 @@ class FlickrAPI {
             completionHandler(true, nil)
         }
         task.resume()
+    }
+    
+    // MARK: Choose a random page
+    func randomPage(pin: Pin, parameters: [String:String])-> Int {
+        let pages = Int(pin.pages)
+        if pages > 1 {
+            let pageLimit = min(pages, 40)
+            let randomPage = Int(arc4random_uniform(UInt32(pageLimit)))
+            return randomPage
+        }
+        return 0
     }
     
     // MARK: Forming bounding box with min longitude, min latitude, max longitude, max latitude

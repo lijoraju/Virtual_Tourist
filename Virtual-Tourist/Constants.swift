@@ -30,6 +30,7 @@ class Constants {
         static let format = "format"
         static let noJSONCallBack = "nojsoncallback"
         static let bbox = "bbox"
+        static let page = "page"
     }
     
     struct FlickrParameterValue {
