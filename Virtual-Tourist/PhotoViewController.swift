@@ -19,6 +19,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     var managedContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let pin: Pin = Constants.selectedPin
+    let numOfPhotos = Int(Constants.selectedPin.numOfPhotos)
     lazy var fetchedResultsController: NSFetchedResultsController<Photo> = {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "index", ascending: true)
@@ -48,20 +49,24 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         mapView.addAnnotation(Constants.selectedPin)
         mapView.centerCoordinate = Constants.selectedPin.coordinate
         mapView.camera.altitude = 1000000
+        newCollectionButton.isEnabled = pin.downloadFlag
     }
 
     // MARK: Load image to cell from core data data store
     func configureCell(_ cell: ImageCell, atIndexPath indexPath: IndexPath) {
-        let photo = fetchedResultsController.object(at: indexPath)
-        if let imageData = photo.image as? Data {
-            cell.imageCell.image = UIImage(data: imageData)
+        performDataUpdatesOnBackground {
+            let photo = self.fetchedResultsController.object(at: indexPath)
+            if let imageData = photo.image as? Data {
+                performUIUpdateOnMain {
+                    cell.imageCell.image = UIImage(data: imageData)
+                }
+            }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let sections = fetchedResultsController.sections {
+       if let sections = fetchedResultsController.sections {
             let sectionInfo = sections[section]
-            print("num = \(sectionInfo.numberOfObjects)")
             return sectionInfo.numberOfObjects
         }
         return 0
@@ -69,12 +74,18 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! ImageCell
+        cell.imageCell.image = #imageLiteral(resourceName: "placeholder-1")
         configureCell(cell, atIndexPath: indexPath)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        deleteCell(indexPath)
+        let selectedPhoto = fetchedResultsController.object(at: indexPath)
+        deletePhoto(photo: selectedPhoto)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        newCollectionButton.isEnabled = pin.downloadFlag
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -89,23 +100,28 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
                 collectionView.deleteItems(at: [indexPath])
             }
             break
+        case .update:
+            if let indexPath = indexPath {
+                let cell = collectionView.cellForItem(at: indexPath) as! ImageCell
+                configureCell(cell, atIndexPath: indexPath)
+            }
+            break
         default:
             break
         }
     }
     
     // MARK: Delete a selected photo cell from collection view and simultaneously from core data store
-    func deleteCell(_ indexPath: IndexPath) {
-        let photo = fetchedResultsController.object(at: indexPath)
+    func deletePhoto(photo: Photo) {
         managedContext.delete(photo)
+        pin.numOfPhotos = pin.numOfPhotos - 1
         appDelegate.saveContext()
     }
     
     // MARK: New Collection button action
     @IBAction func showNewCollection(_ sender: AnyObject) {
-        for photo in fetchedResultsController.fetchedObjects! {
-            managedContext.delete(photo)
-            appDelegate.saveContext()
+        for object in fetchedResultsController.fetchedObjects! {
+            deletePhoto(photo: object)
         }
     }
     

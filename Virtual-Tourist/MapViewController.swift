@@ -38,12 +38,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             appDelegate.saveContext()
             FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: managedContext) { (sucess,error) in
                 if sucess {
-                    do {
-                        try self.managedContext.save()
-                    }
-                    catch let error as NSError {
-                        print("Error saving after completing fetching photos \(error) \(error.userInfo)")
-                    }
+                    pin.downloadFlag = true
+                    save(context: self.managedContext)
                 }
             }
             mapView.addAnnotation(pin)
@@ -102,12 +98,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if pin.count > 0 {
                 mapView.removeAnnotation(pin.first!)
                 managedContext.delete(pin.first!)
-                do {
-                    try managedContext.save()
-                }
-                catch let error as NSError {
-                    print("Error saving after deleting a pin \(error) \(error.userInfo)")
-                }
+                save(context: managedContext)
                 print("Pin deleted")
             }
         }

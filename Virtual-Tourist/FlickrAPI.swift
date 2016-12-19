@@ -52,6 +52,14 @@ class FlickrAPI {
                 print("No phtotos available for the newly added pin.")
                 return
             }
+            guard let page = photoDictionaries[Constants.FlickrResponseKey.page] as? Int  else {
+                print("Can't find key \(Constants.FlickrResponseKey.page) in \(result)")
+                return
+            }
+            pin.currentPage = Int16(page)
+            pin.numOfPhotos = Int16(photoArray.count)
+            pin.pages = Int16(pages)
+            save(context: managedContext)
             for index in 0...(photoArray.count - 1) {
                 let photoDictionary = photoArray[index]
                 guard let imageURL = photoDictionary[Constants.FlickrResponseKey.mediumURL] as? String else {
@@ -65,12 +73,7 @@ class FlickrAPI {
                     photo.url = imageURL
                     photo.pin = pin
                     photo.image = imageData
-                    do {
-                        try managedContext.save()
-                    }
-                    catch let error as NSError {
-                        print("Can't save downloaded image \(error) \(error.userInfo)")
-                    }
+                    save(context: managedContext)
                 }
                 print("index = \(index) url = \(imageURL)")
             }
@@ -101,5 +104,5 @@ class FlickrAPI {
         }
         return components.url!
     }
-    
+
 }

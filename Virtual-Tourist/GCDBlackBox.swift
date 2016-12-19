@@ -15,6 +15,12 @@ func performUIUpdateOnMain(updates: @escaping ()-> Void) {
     }
 }
 
+func performDataUpdatesOnBackground(updates: @escaping ()-> Void) {
+    DispatchQueue.global(qos: .background).async {
+        updates()
+    }
+}
+
 // MARK: Save changes in the managed object context
 func save(context moc : NSManagedObjectContext) {
     do {
