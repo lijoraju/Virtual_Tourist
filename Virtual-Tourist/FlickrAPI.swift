@@ -63,23 +63,27 @@ class FlickrAPI {
             pin.currentPage = Int16(page)
             pin.numOfPhotos = Int16(photoArray.count)
             pin.pages = Int16(pages)
-            save(context: managedContext)
+            save(context: managedContext) { sucess in
+                if sucess {
+                    print("Saved no. of pages, no. of photos for given page and currentPage.")
+                }
+            }
             for index in 0...(photoArray.count - 1) {
                 let photoDictionary = photoArray[index]
                 guard let imageURL = photoDictionary[Constants.FlickrResponseKey.mediumURL] as? String else {
                     print("Can't find key \(Constants.FlickrResponseKey.mediumURL) in \(photoDictionary)")
                     return
                 }
-                let url = URL(string: imageURL)!
-                if let imageData = NSData(contentsOf: url) {
-                    let photo = Photo(context: managedContext)
-                    photo.index = index + 1
-                    photo.url = imageURL
-                    photo.pin = pin
-                    photo.image = imageData
-                    save(context: managedContext)
+                let photo = Photo(context: managedContext)
+                photo.index = index + 1
+                photo.url = imageURL
+                photo.image = nil
+                photo.pin = pin
+                save(context: managedContext) { sucess in
+                    if sucess {
+                        print("Saved index \(index) url_m = \(imageURL) ")
+                    }
                 }
-                print("index = \(index) url = \(imageURL)")
             }
             completionHandler(true, nil)
         }
@@ -120,4 +124,31 @@ class FlickrAPI {
         return components.url!
     }
 
+    // MARK: Download the images from the stored urls
+    func downloadImages(addedPin pin: Pin, context managedContext: NSManagedObjectContext, completionHandler: @escaping(_ sucess: Bool, _ error: String?)-> Void) {
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        let predicate = NSPredicate(format: "pin = %@", pin)
+        fetchRequest.predicate = predicate
+        var photos: [Photo] = []
+        do {
+            photos = try managedContext.fetch(fetchRequest)
+        }
+        catch let error as NSError {
+            print("Fetching error: \(error) \(error.userInfo)")
+        }
+        for photo in photos {
+            if let imageURL = photo.url {
+                let url = URL(string: imageURL)!
+                let imageData = NSData(contentsOf: url)
+                photo.image = imageData
+                save(context: managedContext) { sucess in
+                    if sucess {
+                        print("Downloaded \(photo.index) photos")
+                    }
+                }
+            }
+        }
+        completionHandler(true, nil)
+    }
+    
 }

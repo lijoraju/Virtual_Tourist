@@ -19,7 +19,8 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     var managedContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let pin: Pin = Constants.selectedPin
-    var refreshing = false
+    var items = 0
+    var completedDownloading = false
     lazy var fetchedResultsController: NSFetchedResultsController<Photo> = {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "index", ascending: true)
@@ -38,8 +39,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         do {
             try fetchedResultsController.performFetch()
         }
-        catch {
-            let error = error as NSError
+        catch let error as NSError {
             print("An error occured \(error) \(error.userInfo)")
         }
     }
@@ -53,18 +53,17 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
 
     // MARK: Load image to cell from core data data store
     func configureCell(_ cell: ImageCell, atIndexPath indexPath: IndexPath) {
-        performDataUpdatesOnBackground {
-            let photo = self.fetchedResultsController.object(at: indexPath)
-            if let imageData = photo.image as? Data {
-                performUIUpdateOnMain {
-                    cell.imageCell.image = UIImage(data: imageData)
-                }
-            }
+        let photo = fetchedResultsController.object(at: indexPath)
+        guard photo.image != nil else {
+            print("No image downloaded for cell \(indexPath.row)")
+            return
         }
+        let imageData = photo.image
+        cell.imageCell.image = UIImage(data: imageData as! Data)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       if let sections = fetchedResultsController.sections {
+        if let sections = fetchedResultsController.sections {
             let sectionInfo = sections[section]
             return sectionInfo.numberOfObjects
         }
@@ -73,7 +72,6 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! ImageCell
-        cell.imageCell.image = #imageLiteral(resourceName: "placeholder-1")
         configureCell(cell, atIndexPath: indexPath)
         return cell
     }
@@ -83,18 +81,10 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         deletePhoto(photo: selectedPhoto)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if !refreshing {
-            setUIEnabled(enabled: pin.downloadFlag)
-        }
-    }
-    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            if let indexPath = newIndexPath {
-                collectionView.insertItems(at: [indexPath])
-            }
+            collectionView.reloadData()
             break
         case .delete:
             if let indexPath = indexPath {
@@ -114,24 +104,23 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     // MARK: Delete a selected photo cell from collection view and simultaneously from core data store
     func deletePhoto(photo: Photo) {
-        performUIUpdateOnMain() {
-            self.managedContext.delete(photo)
-            self.pin.numOfPhotos = self.pin.numOfPhotos - 1
-            self.appDelegate.saveContext()
-        }
+        managedContext.delete(photo)
+        appDelegate.saveContext()
     }
     
     // MARK: New Collection button action
     @IBAction func showNewCollection(_ sender: AnyObject) {
+        setUIEnabled(enabled: false)
         for object in fetchedResultsController.fetchedObjects! {
             deletePhoto(photo: object)
         }
-        refreshing = true
-        setUIEnabled(enabled: false)
         FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: managedContext) { (sucess, error) in
             if sucess {
-                self.refreshing = false
-                self.setUIEnabled(enabled: true)
+                FlickrAPI.sharedInstance.downloadImages(addedPin: self.pin, context: self.managedContext) { (sucess, error) in
+                    if sucess {
+                        self.setUIEnabled(enabled: true)
+                    }
+                }
             }
         }
     }
