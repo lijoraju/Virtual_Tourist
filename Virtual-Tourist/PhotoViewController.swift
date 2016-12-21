@@ -19,7 +19,6 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     var managedContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let pin: Pin = Constants.selectedPin
-    var completedDownloading = false
     lazy var fetchedResultsController: NSFetchedResultsController<Photo> = {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "index", ascending: true)
@@ -72,6 +71,11 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! ImageCell
+        let downloadCompleted = pin.downloadFlag
+        if !downloadCompleted {
+            cell.imageCell.image = #imageLiteral(resourceName: "placeholder-1")
+            return cell
+        }
         configureCell(cell, atIndexPath: indexPath)
         return cell
     }
@@ -126,9 +130,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
             if sucess {
                 FlickrAPI.sharedInstance.downloadImages(addedPin: self.pin, context: self.managedContext) { (sucess, error) in
                     if sucess {
-                        self.pin.downloadFlag = true
-                        self.appDelegate.saveContext()
-                        self.setUIEnabled(enabled: true)
+                        print("New collection downloaded")
                     }
                 }
             }

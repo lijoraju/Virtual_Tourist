@@ -61,7 +61,7 @@ class FlickrAPI {
                 return
             }
             let totalPhotos = photoArray.count
-            let photosLoading = min(25, (totalPhotos - 1))
+            let photosLoading = min(24, (totalPhotos - 1))
             pin.currentPage = Int16(page)
             pin.numOfPhotos = Int16(photosLoading)
             pin.pages = Int16(pages)
