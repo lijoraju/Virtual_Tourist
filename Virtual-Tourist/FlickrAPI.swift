@@ -70,8 +70,6 @@ class FlickrAPI {
                     print("Saved no. of pages, no. of photos for given page and currentPage.")
                 }
             }
-            
-            
             for index in 0...photosLoading {
                 let photoDictionary = photoArray[index]
                 guard let imageURL = photoDictionary[Constants.FlickrResponseKey.mediumURL] as? String else {
