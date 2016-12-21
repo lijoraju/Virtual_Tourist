@@ -29,11 +29,15 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         frc.delegate = self
         return frc
     }()
+    let itemsPerRow: CGFloat = 3
+    let sectionInsets = UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 2)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
+        flowLayout.minimumLineSpacing = 3.0
+        flowLayout.minimumInteritemSpacing = 3.0
         do {
             try fetchedResultsController.performFetch()
         }
@@ -73,7 +77,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! ImageCell
         let downloadCompleted = pin.downloadFlag
         if !downloadCompleted {
-            cell.imageCell.image = #imageLiteral(resourceName: "placeholder-1")
+            cell.imageCell.image = #imageLiteral(resourceName: "placeholder")
             return cell
         }
         configureCell(cell, atIndexPath: indexPath)
@@ -141,4 +145,18 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     func setUIEnabled(enabled: Bool) {
         newCollectionButton.isEnabled = enabled
     }
+    
+}
+
+// MARK: UICollectionViewDelegateFlowlayout
+extension PhotoViewController: UICollectionViewDelegateFlowLayout {
+    
+    // MARK: Telling the layout the size for a given cell
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        let availableWidth = view.frame.width - paddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        return CGSize(width: widthPerItem, height: widthPerItem)
+    }
+    
 }
