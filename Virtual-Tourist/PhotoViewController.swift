@@ -95,8 +95,10 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
             break
         case .update:
-            if pin.downloadFlag {
+            let downloadCompleted = pin.downloadFlag
+            if downloadCompleted {
                 collectionView.reloadData()
+                setUIEnabled(enabled: true)
             }
             break
         default:
