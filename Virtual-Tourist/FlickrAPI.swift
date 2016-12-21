@@ -60,15 +60,19 @@ class FlickrAPI {
                 print("Can't find key \(Constants.FlickrResponseKey.page) in \(result)")
                 return
             }
+            let totalPhotos = photoArray.count
+            let photosLoading = min(25, (totalPhotos - 1))
             pin.currentPage = Int16(page)
-            pin.numOfPhotos = Int16(photoArray.count)
+            pin.numOfPhotos = Int16(photosLoading)
             pin.pages = Int16(pages)
             save(context: managedContext) { sucess in
                 if sucess {
                     print("Saved no. of pages, no. of photos for given page and currentPage.")
                 }
             }
-            for index in 0...(photoArray.count - 1) {
+            
+            
+            for index in 0...photosLoading {
                 let photoDictionary = photoArray[index]
                 guard let imageURL = photoDictionary[Constants.FlickrResponseKey.mediumURL] as? String else {
                     print("Can't find key \(Constants.FlickrResponseKey.mediumURL) in \(photoDictionary)")
@@ -141,6 +145,9 @@ class FlickrAPI {
                 let url = URL(string: imageURL)!
                 let imageData = NSData(contentsOf: url)
                 photo.image = imageData
+                if photo.index == pin.numOfPhotos {
+                    pin.downloadFlag = true
+                }
                 save(context: managedContext) { sucess in
                     if sucess {
                         print("Downloaded \(photo.index) photos")

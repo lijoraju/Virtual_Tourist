@@ -19,7 +19,6 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     var managedContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let pin: Pin = Constants.selectedPin
-    var items = 0
     var completedDownloading = false
     lazy var fetchedResultsController: NSFetchedResultsController<Photo> = {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
@@ -49,8 +48,9 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         mapView.addAnnotation(Constants.selectedPin)
         mapView.centerCoordinate = Constants.selectedPin.coordinate
         mapView.camera.altitude = 1000000
+        setUIEnabled(enabled: pin.downloadFlag)
     }
-
+    
     // MARK: Load image to cell from core data data store
     func configureCell(_ cell: ImageCell, atIndexPath indexPath: IndexPath) {
         let photo = fetchedResultsController.object(at: indexPath)
@@ -81,10 +81,13 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         deletePhoto(photo: selectedPhoto)
     }
     
+    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            collectionView.reloadData()
+            if let indexPath = newIndexPath {
+                collectionView.insertItems(at: [indexPath])
+            }
             break
         case .delete:
             if let indexPath = indexPath {
@@ -92,9 +95,8 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
             break
         case .update:
-            if let indexPath = indexPath {
-                let cell = collectionView.cellForItem(at: indexPath) as! ImageCell
-                configureCell(cell, atIndexPath: indexPath)
+            if pin.downloadFlag {
+                collectionView.reloadData()
             }
             break
         default:
@@ -112,12 +114,18 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBAction func showNewCollection(_ sender: AnyObject) {
         setUIEnabled(enabled: false)
         for object in fetchedResultsController.fetchedObjects! {
-            deletePhoto(photo: object)
+            performUIUpdateOnMain {
+                self.deletePhoto(photo: object)
+            }
         }
+        pin.downloadFlag = false
+        appDelegate.saveContext()
         FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: managedContext) { (sucess, error) in
             if sucess {
                 FlickrAPI.sharedInstance.downloadImages(addedPin: self.pin, context: self.managedContext) { (sucess, error) in
                     if sucess {
+                        self.pin.downloadFlag = true
+                        self.appDelegate.saveContext()
                         self.setUIEnabled(enabled: true)
                     }
                 }

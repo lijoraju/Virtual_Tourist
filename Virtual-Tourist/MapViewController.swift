@@ -35,6 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let pin = Pin(context: managedContext)
             pin.latitude = mapCoordinate.latitude
             pin.longitude = mapCoordinate.longitude
+            pin.downloadFlag = false
             appDelegate.saveContext()
             FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: managedContext) { (sucess,error) in
                 if sucess {
