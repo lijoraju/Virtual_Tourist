@@ -60,18 +60,19 @@ class FlickrAPI {
                 print("Can't find key \(Constants.FlickrResponseKey.page) in \(result)")
                 return
             }
-            let totalPhotos = photoArray.count
-            let photosLoading = min(29, (totalPhotos - 1))
+            let totalPhotos = photoArray.count - 1
+            let photosLoading = min(29, totalPhotos)
             pin.currentPage = Int16(page)
             pin.numOfPhotos = Int16(photosLoading)
             pin.pages = Int16(pages)
             save(context: managedContext) { sucess in
                 if sucess {
-                    print("Saved no. of pages, no. of photos for given page and currentPage.")
+                    print("Saved current page, num of photos and pages")
                 }
             }
             for index in 0...photosLoading {
-                let photoDictionary = photoArray[index]
+                let randomIndex = Int(arc4random_uniform(UInt32(totalPhotos)))
+                let photoDictionary = photoArray[randomIndex]
                 guard let imageURL = photoDictionary[Constants.FlickrResponseKey.mediumURL] as? String else {
                     print("Can't find key \(Constants.FlickrResponseKey.mediumURL) in \(photoDictionary)")
                     return

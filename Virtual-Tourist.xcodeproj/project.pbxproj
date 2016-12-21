@@ -59,10 +59,10 @@
 		DA304D161E00407C009286D0 /* Virtual_TouristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TouristUITests.swift; sourceTree = "<group>"; };
 		DA304D181E00407C009286D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA304D3C1E0071BA009286D0 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
-		DAA959E21E06CA9900BDA570 /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
-		DAA959E31E06CA9900BDA570 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		DAA959E41E06CA9900BDA570 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		DAA959E51E06CA9900BDA570 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DAA959E21E06CA9900BDA570 /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataClass.swift"; path = "../Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DAA959E31E06CA9900BDA570 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DAA959E41E06CA9900BDA570 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Photo+CoreDataClass.swift"; path = "../Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DAA959E51E06CA9900BDA570 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Photo+CoreDataProperties.swift"; path = "../Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DAEA34E71E012B0B00A57994 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		DAEA34E91E012CB700A57994 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		DAF7D1531E019C4E0080C6CB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -97,10 +97,6 @@
 		DA304CE71E00407B009286D0 = {
 			isa = PBXGroup;
 			children = (
-				DAA959E21E06CA9900BDA570 /* Pin+CoreDataClass.swift */,
-				DAA959E31E06CA9900BDA570 /* Pin+CoreDataProperties.swift */,
-				DAA959E41E06CA9900BDA570 /* Photo+CoreDataClass.swift */,
-				DAA959E51E06CA9900BDA570 /* Photo+CoreDataProperties.swift */,
 				DA304CF21E00407B009286D0 /* Virtual-Tourist */,
 				DA304D0A1E00407C009286D0 /* Virtual-TouristTests */,
 				DA304D151E00407C009286D0 /* Virtual-TouristUITests */,
@@ -169,8 +165,8 @@
 		DA304D261E0040E8009286D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DA304CFA1E00407B009286D0 /* Virtual_Tourist.xcdatamodeld */,
 				DAF7D1551E01B0B10080C6CB /* FlickrAPI.swift */,
+				DA456EFA1E0AF93D004A718F /* Core Data */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -185,6 +181,18 @@
 				DA304D021E00407B009286D0 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DA456EFA1E0AF93D004A718F /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				DAA959E21E06CA9900BDA570 /* Pin+CoreDataClass.swift */,
+				DAA959E31E06CA9900BDA570 /* Pin+CoreDataProperties.swift */,
+				DAA959E41E06CA9900BDA570 /* Photo+CoreDataClass.swift */,
+				DAA959E51E06CA9900BDA570 /* Photo+CoreDataProperties.swift */,
+				DA304CFA1E00407B009286D0 /* Virtual_Tourist.xcdatamodeld */,
+			);
+			name = "Core Data";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
