@@ -141,6 +141,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
             else {
                 performUIUpdateOnMain {
                     self.displayAlert(title: errorTitle!, message: errorMessage!)
+                    self.setUIEnabled(enabled: true)
                 }
             }
         }
