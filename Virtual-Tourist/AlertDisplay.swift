@@ -13,7 +13,7 @@ import UIKit
 extension UIViewController {
     func displayAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "Ok", style: .default)
+        let alertAction = UIAlertAction(title: "Okay", style: .default)
         alert.addAction(alertAction)
         present(alert, animated: true)
     }

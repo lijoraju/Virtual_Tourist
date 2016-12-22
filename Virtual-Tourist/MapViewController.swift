@@ -63,7 +63,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBAction func editButtonAction(_ sender: AnyObject) {
         if editMode {
             editMode = false
-            editButton.title = "Edit"
+            editButton.title = "Undo"
         }
         else {
             displayAlert()
