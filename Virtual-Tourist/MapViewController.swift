@@ -37,12 +37,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             pin.longitude = mapCoordinate.longitude
             pin.downloadFlag = false
             appDelegate.saveContext()
-            FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: managedContext) { (sucess,error) in
+            sentRequestToFlickrAPI(requestForPin: pin, managedObjectContext: managedContext) { (sucess, errorTitle, errorMessage) in
                 if sucess {
-                    FlickrAPI.sharedInstance.downloadImages(addedPin:pin, context: self.managedContext) { (sucess, error) in
-                        if sucess {
-                            print("Download completed")
-                        }
+                    print("Download Completed")
+                }
+                else {
+                    performUIUpdateOnMain {
+                        self.displayAlert(title: errorTitle!, message: errorMessage!)
                     }
                 }
             }
@@ -131,4 +132,3 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
 
 }
-

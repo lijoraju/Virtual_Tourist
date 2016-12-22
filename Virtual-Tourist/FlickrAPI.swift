@@ -29,11 +29,11 @@ class FlickrAPI {
         let request = URLRequest(url: flickrURLFromParameters(parameters: methodParameters as [String : AnyObject]))
         let task = session.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
-                print("Error occured.\(error)")
+                completionHandler(false, error!.localizedDescription)
                 return
             }
             guard let data = data else {
-                print("No data returned by request")
+                completionHandler(false, "No data returned by request")
                 return
             }
             let parseResult: Any
@@ -41,23 +41,25 @@ class FlickrAPI {
                 parseResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
             }
             catch {
-                print("Could not parse data as JSON \(data)")
+                completionHandler(false, "Could not parse data as JSON")
                 return
             }
             let result = parseResult as AnyObject
             guard let statusCode = result[Constants.FlickrResponseKey.status] as? String, statusCode == Constants.FlickrResponseValue.status else {
-                print("Flickr API returned an error. Please see response code and messages in \(result)")
+                completionHandler(false, "Flickr API returned an error")
                 return
             }
             guard let photoDictionaries = result[Constants.FlickrResponseKey.photos] as? [String: AnyObject], let pages = photoDictionaries[Constants.FlickrResponseKey.pages] as? Int, let photoArray = photoDictionaries[Constants.FlickrResponseKey.photo] as? [[String: AnyObject]] else {
+                completionHandler(false, nil)
                 return
             }
             guard pages != 0  else {
-                print("No phtotos available for the newly added pin.")
+                completionHandler(false, "No phtotos available for the newly added pin")
                 return
             }
             guard let page = photoDictionaries[Constants.FlickrResponseKey.page] as? Int  else {
                 print("Can't find key \(Constants.FlickrResponseKey.page) in \(result)")
+                completionHandler(false, nil)
                 return
             }
             let totalPhotos = photoArray.count - 1
@@ -75,6 +77,7 @@ class FlickrAPI {
                 let photoDictionary = photoArray[randomIndex]
                 guard let imageURL = photoDictionary[Constants.FlickrResponseKey.mediumURL] as? String else {
                     print("Can't find key \(Constants.FlickrResponseKey.mediumURL) in \(photoDictionary)")
+                    completionHandler(false, nil)
                     return
                 }
                 let photo = Photo(context: managedContext)
@@ -138,6 +141,7 @@ class FlickrAPI {
         }
         catch let error as NSError {
             print("Fetching error: \(error) \(error.userInfo)")
+            completionHandler(false, "Failed fetching request")
         }
         for photo in photos {
             if let imageURL = photo.url {
