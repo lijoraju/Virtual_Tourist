@@ -86,7 +86,9 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedPhoto = fetchedResultsController.object(at: indexPath)
-        deletePhoto(photo: selectedPhoto)
+        performUIUpdateOnMain() {
+            self.deletePhoto(photo: selectedPhoto)
+        }
     }
     
     
@@ -94,19 +96,25 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         switch type {
         case .insert:
             if let indexPath = newIndexPath {
-                collectionView.insertItems(at: [indexPath])
+                performUIUpdateOnMain() {
+                    self.collectionView.insertItems(at: [indexPath])
+                }
             }
             break
         case .delete:
             if let indexPath = indexPath {
-                collectionView.deleteItems(at: [indexPath])
+                performUIUpdateOnMain() {
+                    self.collectionView.deleteItems(at: [indexPath])
+                }
             }
             break
         case .update:
             let downloadCompleted = pin.downloadFlag
             if downloadCompleted {
-                collectionView.reloadData()
-                setUIEnabled(enabled: true)
+                performUIUpdateOnMain {
+                    self.collectionView.reloadData()
+                    self.setUIEnabled(enabled: true)
+                }
             }
             break
         default:
