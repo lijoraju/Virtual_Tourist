@@ -36,6 +36,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             pin.latitude = mapCoordinate.latitude
             pin.longitude = mapCoordinate.longitude
             pin.downloadFlag = false
+            pin.numOfPhotos = 0
             appDelegate.saveContext()
             sentRequestToFlickrAPI(requestForPin: pin, managedObjectContext: managedContext) { (sucess, errorTitle, errorMessage) in
                 if sucess {

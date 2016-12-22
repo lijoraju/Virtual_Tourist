@@ -96,25 +96,19 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         switch type {
         case .insert:
             if let indexPath = newIndexPath {
-                performUIUpdateOnMain() {
-                    self.collectionView.insertItems(at: [indexPath])
-                }
+                collectionView.insertItems(at: [indexPath])
             }
             break
         case .delete:
             if let indexPath = indexPath {
-                performUIUpdateOnMain() {
-                    self.collectionView.deleteItems(at: [indexPath])
-                }
+                collectionView.deleteItems(at: [indexPath])
             }
             break
         case .update:
             let downloadCompleted = pin.downloadFlag
             if downloadCompleted {
-                performUIUpdateOnMain {
-                    self.collectionView.reloadData()
-                    self.setUIEnabled(enabled: true)
-                }
+                collectionView.reloadData()
+                setUIEnabled(enabled: true)
             }
             break
         default:
@@ -138,6 +132,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
         pin.downloadFlag = false
         appDelegate.saveContext()
+        print("saved")
         sentRequestToFlickrAPI(requestForPin: pin, managedObjectContext: managedContext) { (sucess, errorTitle, errorMessage) in
             if sucess {
                 print("New Collection Downloaded")
@@ -152,7 +147,13 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     // MARK: Configure UI
     func setUIEnabled(enabled: Bool) {
-        newCollectionButton.isEnabled = enabled
+        let numOfPhotos = Int(pin.numOfPhotos)
+        if numOfPhotos == 0 {
+            newCollectionButton.isEnabled = true
+        }
+        else {
+            newCollectionButton.isEnabled = enabled
+        }
     }
     
 }
