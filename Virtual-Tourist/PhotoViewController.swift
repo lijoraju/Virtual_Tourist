@@ -15,6 +15,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var newCollectionButton: UIButton!
+    @IBOutlet weak var noImagesLabel: UILabel!
 
     var managedContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -107,8 +108,8 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         case .update:
             let downloadCompleted = pin.downloadFlag
             if downloadCompleted {
-                collectionView.reloadData()
                 setUIEnabled(enabled: true)
+                collectionView.reloadData()
             }
             break
         default:
@@ -145,13 +146,22 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
     }
     
+    // MARK: Back button action
+    @IBAction func backToMap(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: Configure UI
     func setUIEnabled(enabled: Bool) {
         let numOfPhotos = Int(pin.numOfPhotos)
         if numOfPhotos == 0 {
+            noImagesLabel.isHidden = false
+            collectionView.isHidden = true
             newCollectionButton.isEnabled = true
         }
         else {
+            noImagesLabel.isHidden = true
+            collectionView.isHidden = false
             newCollectionButton.isEnabled = enabled
         }
     }
