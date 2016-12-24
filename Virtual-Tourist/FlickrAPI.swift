@@ -130,35 +130,19 @@ class FlickrAPI {
         return components.url!
     }
 
-    // MARK: Download the images from the stored urls
-    func downloadImages(addedPin pin: Pin, context managedContext: NSManagedObjectContext, completionHandler: @escaping(_ sucess: Bool, _ error: String?)-> Void) {
-        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
-        let predicate = NSPredicate(format: "pin = %@", pin)
-        fetchRequest.predicate = predicate
-        var photos: [Photo] = []
-        do {
-            photos = try managedContext.fetch(fetchRequest)
-        }
-        catch let error as NSError {
-            print("Fetching error: \(error) \(error.userInfo)")
-            completionHandler(false, "Failed fetching request")
-        }
-        for photo in photos {
-            if let imageURL = photo.url {
-                let url = URL(string: imageURL)!
-                let imageData = NSData(contentsOf: url)
-                photo.image = imageData
-                if photo.index == pin.numOfPhotos {
-                    pin.downloadFlag = true
-                }
-                save(context: managedContext) { sucess in
-                    if sucess {
-                        print("Downloaded \(photo.index) photos")
-                    }
-                }
+    // MARK: Perform download from saved imagePaths
+    func downloadImages(imagePath: String, completionHandler: @escaping(_ imageData: Data?, _ errorString: String?)-> Void) {
+        let session = URLSession.shared
+        let imageURL = NSURL(string: imagePath)
+        let request = NSURLRequest(url: imageURL! as URL)
+        let task = session.dataTask(with: request as URLRequest) { data, response, downloadError in
+            guard downloadError == nil else {
+                completionHandler(nil, "Could not download image from \(imagePath)")
+                return
             }
+            completionHandler(data, nil)
         }
-        completionHandler(true, nil)
+        task.resume()
     }
     
 }

@@ -40,7 +40,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             appDelegate.saveContext()
             sentRequestToFlickrAPI(requestForPin: pin, managedObjectContext: managedContext) { (sucess, errorTitle, errorMessage) in
                 if sucess {
-                    print("Download Completed")
+                    print("Determined No. of photos and their imagePaths for the newly added pin")
                 }
                 else {
                     performUIUpdateOnMain {

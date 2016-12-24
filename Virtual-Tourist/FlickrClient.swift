@@ -13,14 +13,7 @@ import CoreData
 func sentRequestToFlickrAPI(requestForPin pin: Pin, managedObjectContext moc: NSManagedObjectContext, completionHandler: @escaping(_ sucess: Bool, _ error: String?, _ errorMessage: String?)-> Void) {
     FlickrAPI.sharedInstance.searchPhotos(searchPin: pin, context: moc) { (sucess, errorString) in
         if sucess {
-            FlickrAPI.sharedInstance.downloadImages(addedPin: pin, context: moc) { (sucess, errorString) in
-                if sucess {
-                    completionHandler(true, nil, nil)
-                }
-                else {
-                    completionHandler(false, "Failed Searching Photos", errorString)
-                }
-            }
+            completionHandler(true, nil, nil)
         }
         else {
             completionHandler(false, "Failed Downloading Photos", errorString)

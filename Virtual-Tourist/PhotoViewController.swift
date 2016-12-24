@@ -59,7 +59,23 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     func configureCell(_ cell: ImageCell, atIndexPath indexPath: IndexPath) {
         let photo = fetchedResultsController.object(at: indexPath)
         guard photo.image != nil else {
-            print("No image downloaded for cell \(indexPath.row)")
+            FlickrAPI.sharedInstance.downloadImages(imagePath: photo.url!) { imageData, error in
+                if error == nil {
+                    cell.imageCell.image = UIImage(data: imageData!)
+                    if photo.index == self.pin.numOfPhotos {
+                        self.pin.downloadFlag = true
+                    }
+                    photo.image = imageData as NSData?
+                    save(context: self.managedContext) { sucess in
+                        if sucess {
+                            print("Downloaded and saved photo for index \(photo.index)")
+                        }
+                    }
+                }
+                else {
+                    print(error)
+                }
+            }
             return
         }
         let imageData = photo.image
@@ -79,6 +95,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         let downloadCompleted = pin.downloadFlag
         if !downloadCompleted {
             cell.imageCell.image = #imageLiteral(resourceName: "placeholder")
+            configureCell(cell, atIndexPath: indexPath)
             return cell
         }
         configureCell(cell, atIndexPath: indexPath)
@@ -91,7 +108,6 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
             self.deletePhoto(photo: selectedPhoto)
         }
     }
-    
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
@@ -136,7 +152,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         print("saved")
         sentRequestToFlickrAPI(requestForPin: pin, managedObjectContext: managedContext) { (sucess, errorTitle, errorMessage) in
             if sucess {
-                print("New Collection Downloaded")
+                print("New Collection Determined")
             }
             else {
                 performUIUpdateOnMain {
