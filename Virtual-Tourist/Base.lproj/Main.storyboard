@@ -73,7 +73,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SwR-kd-GWU">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SwR-kd-GWU">
+                                <frame key="frameInset" width="1000" height="1000"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="4jQ-z3-l0t"/>
                                 </constraints>
@@ -98,7 +99,8 @@
                                     <action selector="showNewCollection:" destination="7Kq-GP-YzF" eventType="touchUpInside" id="m3Q-11-yKI"/>
                                 </connections>
                             </button>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="np6-i9-Ml1">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="np6-i9-Ml1">
+                                <frame key="frameInset" width="1000" height="1000"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Fu5-We-DIz">
                                     <size key="itemSize" width="50" height="50"/>
@@ -115,17 +117,23 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="sP6-BX-pdM"/>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="M5U-YQ-zt9">
+                                                    <color key="color" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="sP6-BX-pdM" secondAttribute="trailing" id="4Qa-om-DzS"/>
+                                            <constraint firstItem="M5U-YQ-zt9" firstAttribute="centerX" secondItem="Idd-Xv-FoH" secondAttribute="centerX" id="Agj-Si-D8s"/>
+                                            <constraint firstItem="M5U-YQ-zt9" firstAttribute="centerY" secondItem="Idd-Xv-FoH" secondAttribute="centerY" id="Kl1-pH-AOb"/>
                                             <constraint firstAttribute="bottom" secondItem="sP6-BX-pdM" secondAttribute="bottom" id="Ujw-gK-9N7"/>
                                             <constraint firstItem="sP6-BX-pdM" firstAttribute="leading" secondItem="Idd-Xv-FoH" secondAttribute="leading" id="Xnk-xI-T08"/>
                                             <constraint firstItem="sP6-BX-pdM" firstAttribute="top" secondItem="Idd-Xv-FoH" secondAttribute="top" id="gQL-Br-KyC"/>
                                         </constraints>
                                         <size key="customSize" width="150" height="150"/>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="M5U-YQ-zt9" id="MtK-1k-h9F"/>
                                             <outlet property="imageCell" destination="sP6-BX-pdM" id="Dmp-Dj-zjg"/>
                                         </connections>
                                     </collectionViewCell>

@@ -62,6 +62,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         guard photo.image != nil else {
             FlickrAPI.sharedInstance.downloadImages(imagePath: photo.url!) { imageData, error in
                 if error == nil {
+                    cell.activityIndicator.stopAnimating()
                     cell.imageCell.image = UIImage(data: imageData!)
                     performUIUpdateOnMain {
                         if photo.index == self.pin.numOfPhotos {
@@ -98,6 +99,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
         let downloadCompleted = pin.downloadFlag
         if !downloadCompleted {
             cell.imageCell.image = #imageLiteral(resourceName: "placeholder")
+            cell.activityIndicator.startAnimating()
             configureCell(cell, atIndexPath: indexPath)
             return cell
         }
