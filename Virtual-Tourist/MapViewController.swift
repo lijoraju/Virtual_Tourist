@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var editButton: UIBarButtonItem!
     
+    let coreData = CoreData.sharedInstance
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
@@ -43,9 +44,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     print("Determined No. of photos and their imagePaths for the newly added pin")
                 }
                 else {
-                    performUIUpdateOnMain {
-                        self.displayAlert(title: errorTitle!, message: errorMessage!)
-                    }
+                    self.displayAlert(title: errorTitle!, message: errorMessage!)
                 }
             }
             mapView.addAnnotation(pin)
@@ -104,7 +103,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if pin.count > 0 {
                 mapView.removeAnnotation(pin.first!)
                 managedContext.delete(pin.first!)
-                save(context: managedContext) { sucess in
+                coreData.save(context: managedContext) { sucess in
                     if sucess {
                         print("Pin Deleted")
                     }

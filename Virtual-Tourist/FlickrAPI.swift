@@ -12,7 +12,7 @@ import UIKit
 
 class FlickrAPI {
     static let sharedInstance = FlickrAPI()
-    
+    let coreData = CoreData.sharedInstance
     // MARK: Search photos in flickr by latitude and longitude
     func searchPhotos(searchPin pin: Pin, context managedContext: NSManagedObjectContext, completionHandler: @escaping(_ sucess: Bool, _ errorString: String?)-> Void) {
         var methodParameters: [String: String] = [Constants.FlickrParameterKey.method: Constants.FlickrParameterValue.method,
@@ -68,7 +68,7 @@ class FlickrAPI {
                 pin.currentPage = Int16(page)
                 pin.numOfPhotos = Int16(photosLoading)
                 pin.pages = Int16(pages)
-                save(context: managedContext) { sucess in
+                self.coreData.save(context: managedContext) { sucess in
                     if sucess {
                         print("Saved current page, num of photos and pages")
                     }
@@ -88,7 +88,7 @@ class FlickrAPI {
                     photo.url = imageURL
                     photo.image = nil
                     photo.pin = pin
-                    save(context: managedContext) { sucess in
+                    self.coreData.save(context: managedContext) { sucess in
                         if sucess {
                             print("Saved index \(index) url_m = \(imageURL) ")
                         }

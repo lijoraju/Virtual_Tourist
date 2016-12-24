@@ -17,6 +17,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBOutlet weak var newCollectionButton: UIButton!
     @IBOutlet weak var noImagesLabel: UILabel!
 
+    let coreData = CoreData.sharedInstance
     var managedContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let pin: Pin = Constants.selectedPin
@@ -67,7 +68,7 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
                             self.pin.downloadFlag = true
                         }
                         photo.image = imageData as NSData?
-                        save(context: self.managedContext) { sucess in
+                        self.coreData.save(context: self.managedContext) { sucess in
                             if sucess {
                                 print("Downloaded and saved photo for index \(photo.index)")
                             }
