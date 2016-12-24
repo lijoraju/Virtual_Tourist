@@ -64,12 +64,14 @@ class FlickrAPI {
             }
             let totalPhotos = photoArray.count - 1
             let photosLoading = min(29, totalPhotos)
-            pin.currentPage = Int16(page)
-            pin.numOfPhotos = Int16(photosLoading)
-            pin.pages = Int16(pages)
-            save(context: managedContext) { sucess in
-                if sucess {
-                    print("Saved current page, num of photos and pages")
+            performUIUpdateOnMain {
+                pin.currentPage = Int16(page)
+                pin.numOfPhotos = Int16(photosLoading)
+                pin.pages = Int16(pages)
+                save(context: managedContext) { sucess in
+                    if sucess {
+                        print("Saved current page, num of photos and pages")
+                    }
                 }
             }
             for index in 0...photosLoading {
@@ -80,14 +82,16 @@ class FlickrAPI {
                     completionHandler(false, nil)
                     return
                 }
-                let photo = Photo(context: managedContext)
-                photo.index = index + 1
-                photo.url = imageURL
-                photo.image = nil
-                photo.pin = pin
-                save(context: managedContext) { sucess in
-                    if sucess {
-                        print("Saved index \(index) url_m = \(imageURL) ")
+                performUIUpdateOnMain {
+                    let photo = Photo(context: managedContext)
+                    photo.index = index + 1
+                    photo.url = imageURL
+                    photo.image = nil
+                    photo.pin = pin
+                    save(context: managedContext) { sucess in
+                        if sucess {
+                            print("Saved index \(index) url_m = \(imageURL) ")
+                        }
                     }
                 }
             }

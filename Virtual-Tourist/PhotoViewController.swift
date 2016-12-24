@@ -62,13 +62,15 @@ class PhotoViewController: UIViewController, UICollectionViewDelegate, UICollect
             FlickrAPI.sharedInstance.downloadImages(imagePath: photo.url!) { imageData, error in
                 if error == nil {
                     cell.imageCell.image = UIImage(data: imageData!)
-                    if photo.index == self.pin.numOfPhotos {
-                        self.pin.downloadFlag = true
-                    }
-                    photo.image = imageData as NSData?
-                    save(context: self.managedContext) { sucess in
-                        if sucess {
-                            print("Downloaded and saved photo for index \(photo.index)")
+                    performUIUpdateOnMain {
+                        if photo.index == self.pin.numOfPhotos {
+                            self.pin.downloadFlag = true
+                        }
+                        photo.image = imageData as NSData?
+                        save(context: self.managedContext) { sucess in
+                            if sucess {
+                                print("Downloaded and saved photo for index \(photo.index)")
+                            }
                         }
                     }
                 }
